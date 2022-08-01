@@ -13,30 +13,30 @@ def calc(N, numList):
     maxCount = 1
     count = 1
     numDict = {}
-    for j in range(1, N+1):
-        numDict[j] = []
-
+    maxCountNumbers = []
     for i in range(1, N):
         if numList[i] == numList[i-1]:
             count += 1
+            if i == N-1 and count >= maxCount:
+                numDict[numList[i-1]] = count
+                maxCount = count
         else:
             if count > maxCount:
                 maxCount = count
-            numDict[count].append(numList[i-1]) 
+            numDict[numList[i-1]] = count
             count = 1
-        if i == N-1:
-            numDict[count].append(numList[i])
-            if count > maxCount:
-                maxCount = count
-        
     if N == 1:
-        numDict[1].append(numList[0])
+        maxCountNumbers.append(numList[0])
+        
+    for j in numDict:
+        if maxCount == numDict[j]:
+            maxCountNumbers.append(j)
             
-    numDict[maxCount].sort()
-    if len(numDict[maxCount]) > 1:
-        print(numDict[maxCount][1])
+    maxCountNumbers.sort
+    if len(maxCountNumbers) > 1:
+        print(maxCountNumbers[1])
     else:
-        print(numDict[maxCount][0])
+        print(maxCountNumbers[0])
         
     print(numList[N-1] - numList[0])
     
