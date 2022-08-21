@@ -21,20 +21,16 @@ public class Main {
 
 		// ArrayList의 contains 메소드는 O(n)을 가진 반면 HashSet의 contains 메소드는 O(1)을 가진다.
 		Set<String> base = new HashSet<String>();
-		List<String> check = new ArrayList<String>();
 		for (int i=0; i<N; i++) {
 			base.add(br.readLine());
 		}
 
-		for (int i=0; i<M; i++) {
-			check.add(br.readLine());
-		}
-
 		List<String> result = new ArrayList<String>();
 		for (int i=0; i<M; i++) {
-			if (base.contains(check.get(i))) { // 듣도 못한 사람 리스트에 검사할 사람의 이름이 존재하면
+			String check = br.readLine();
+			if (base.contains(check)) { // 듣도 못한 사람 리스트에 검사할 사람의 이름이 존재하면
 				count += 1;
-				result.add(check.get(i));
+				result.add(check);
 			} 
 		}
 
