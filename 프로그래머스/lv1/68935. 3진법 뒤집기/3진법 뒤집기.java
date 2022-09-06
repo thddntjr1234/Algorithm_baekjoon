@@ -1,6 +1,5 @@
 class Solution {
     public int solution(int n) {
-        int answer = 0;
         String ternary = "";
         
         // 3진법 변환
@@ -10,12 +9,8 @@ class Solution {
             n/=3;
             if(n == 0) break;
         }
-        // 10진법 변환
-        String[] numberOfTernary = ternary.split("");
-        for(int i=0; i<numberOfTernary.length; i++) {
-            answer += Integer.parseInt(numberOfTernary[i]) * Math.pow(3, (numberOfTernary.length-1)-i);
-        }
-        
-        return answer;
+        // Integer.parseInt(String) == Integer로 단순 변환
+        // Integer.parseInt(String, Int) == int변수의 값에 해당하는 진법으로 변환
+        return Integer.parseInt(ternary, 3);
     }
 }
