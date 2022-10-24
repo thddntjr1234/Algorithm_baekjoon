@@ -7,32 +7,26 @@ public class Main {
     static int[] nums;
 
     /*
-     * 15649 N과 M(1)문제와 동일하나 오름차순 조건에 따라 일부가 약간 변경됨
-     * depth == K일 때 nums에 들어간 수열이 오름차순인지를 먼저 검증하고 오름차순이 아닌 경우엔 return해 해당 수열의 출력을 패스함
-     * 이 방식 외에도 dfs에서 다음 dfs를 호출하기 전 nums[depth-1]과 비교해 보고 클 시엔 dfs를 호출하지 않고 return하는 방식으로 백트래킹을 더 구현할 수 있을 것 같다.
+     * https://st-lab.tistory.com/115 를 참고해 작성한 더 나은 풀이
      */
-    public static void dfs(int depth) {
+    public static void dfs(int at, int depth) {
         if (depth == K) {
-            int prep = nums[0];
-            for (int i=0; i<K; i++) {
-                if(prep > nums[i]) return;
-                else prep = nums[i];
-            }
-
             for (int num : nums) {
                 System.out.print(num + " ");
             }
             System.out.println();
             return;
         }
-        
-        for (int i=0; i<N; i++) {
-            if (!visit[i]) {
-                visit[i] = true;
-                nums[depth] = i+1;
-                dfs(depth+1);
-                visit[i] = false;
-            }
+        /* 
+        * 더 나은 풀이 적용, at변수를 사용해 중복방문 확인을 하지 않아도 되니 이전 내용 삭제
+        * at변수를 통해 재귀를 하게 되면, 재귀 이전에 사용한 값보다 큰 수를 대상으로만 깊어지며 탐색한다
+        * 1, 2까지 사용했으면 세 번째 자리는 3, 4 중 하나가 오고 여기서 4는 다음에 호출하게 되는 재귀의
+        * at값이 5가 되기 때문에 depth가 3인 채로 끝나게 되어 출력되지 않고, 3은 at가 4를 가져 depth가
+        * 4까지 성공적으로 증가하므로 출력되게 되는 방식
+        */
+        for (int i=at; i<=N; i++) {
+            nums[depth] = i;
+            dfs(i+1, depth+1);
         }
     }
     public static void main(String[] args) throws IOException {
@@ -43,6 +37,7 @@ public class Main {
         K = Integer.parseInt(st.nextToken());
         visit = new boolean[N];
         nums = new int[K];
-        dfs(0);
+
+        dfs(1, 0);
     }
 }
