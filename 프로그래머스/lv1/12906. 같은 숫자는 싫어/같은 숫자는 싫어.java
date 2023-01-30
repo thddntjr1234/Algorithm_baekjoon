@@ -1,22 +1,29 @@
 import java.util.*;
 
 public class Solution {
-    public int[] solution(int[] arr) {
+    public int[] solution(int []arr) {
+        Stack<Integer> stack = new Stack<>();
+        int tmp;
         
-        int tmp = arr[0];
-        List<Integer> tmpResult = new ArrayList<>();
-        tmpResult.add(tmp);
-        
-        for (int i=1; i<arr.length; i++) {
-            if (arr[i] != tmp) tmpResult.add(arr[i]);
+        for (int i = arr.length-1; i >= 0; i--) {
             tmp = arr[i];
+            // 스택이 비어있으면 peek 없이 바로 입력
+            if (stack.empty()) {
+                stack.push(arr[i]);
+            }
+            
+            // 비어있지 않으면 peek()과 tmp값을 비교해서 연속 숫자인지 확인
+            else if (stack.peek() != tmp) {
+                stack.push(arr[i]);
+            }
         }
+
+        int[] answer = new int[stack.size()];
+        int size = stack.size();
         
-        int[] answer = new int[tmpResult.size()];
-        for (int i=0; i<tmpResult.size(); i++) {
-            answer[i] = tmpResult.get(i);
+        for (int i=0; i<size; i++) {
+            answer[i] = stack.pop();
         }
-        
         
         return answer;
     }
