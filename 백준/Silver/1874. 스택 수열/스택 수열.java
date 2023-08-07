@@ -1,41 +1,35 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String args[]) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        int[] seq = new int[n];
 
-        int n = sc.nextInt();
-        int[] arr = new int[n+1]; // j가 n까지 증가하게 되므로 n+1만큼 선언
+        for (int i = 0; i < n; i++) {
+            seq[i] = Integer.parseInt(br.readLine());
+        }
+
         Stack<Integer> stack = new Stack<>();
-        stack.push(-1); // 처음 peek()시 스택이 비어 있어 오류 방지와 j가 n까지 증가하게 되는 경우 비교 조건문이 참이 되므로 -1로 선언
+        StringBuilder sb = new StringBuilder();
+        int idx = 0;
+        int cnt = 0;
+        // stack 추가하다가 seq만나면 pop, seq++ 을 무한반복, 아니면 +수행 -카운트 계산ㅁ해서 n아니면 NO?
+        
+        for (int i = 1; i <= n; i++) {
+            stack.push(i);
+            sb.append('+').append('\n');
 
-        for (int i=0; i<n; i++) { // 목표 수열을 담는 배열
-            arr[i] = sc.nextInt();
-        }
-
-        int i = 1, j = 0;
-        while (i<=n+1) {
-            int target = arr[j];
-
-            if (stack.peek() == target) { // 스택의 마지막이 목표 수열을 만들 수 있으면 pop
+            while (!stack.isEmpty() && stack.peek() == seq[idx]) {
                 stack.pop();
-                j++;
-                sb.append("-").append('\n');
-            }
-
-            else { // 오름차순으로 다음 수를 push
-                stack.push(i);
-                i++;
-                if (i <= n+1) {
-                    sb.append("+").append('\n');
-                }
+                idx++;
+                cnt++;
+                sb.append('-').append('\n');
             }
         }
 
-        if (j == n) System.out.println(sb); // j = 목표 수열이 담긴 배열의 인덱스 값, n이란 것은 목표 수열을 만들었다는 의미
+        if (cnt == n) System.out.println(sb.toString());
         else System.out.println("NO");
-        sc.close();
     }
 }
